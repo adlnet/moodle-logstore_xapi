@@ -35,7 +35,7 @@ namespace src\transformer\utils\extensions;
  */
 function info(array $config, \stdClass $event) {
     return [
-        'http://lrs.learninglocker.net/define/extensions/info' => [
+        'https://xapi.edlm/profiles/edlm-lms/concepts/context-extensions/lms-event-info' => [
             $config['source_url'] => $config['source_version'],
             $config['plugin_url'] => $config['plugin_version'],
             'event_name' => $event->eventname,
