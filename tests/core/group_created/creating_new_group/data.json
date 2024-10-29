@@ -1,20 +1,8 @@
 {
-  "course": [
+  "groups": [
     {
       "id": 1,
-      "fullname": "test_name",
-      "lang": "en"
+      "name": "test_name"
     }
-  ],
-  "user": [
-    {
-      "id": 1,
-      "firstname": "test_fullname",
-      "email": "test@test.com"
-    }
-  ],
-  "groups": {
-    "id": 1,
-    "name": "test_name"
-  }
+  ]
 }

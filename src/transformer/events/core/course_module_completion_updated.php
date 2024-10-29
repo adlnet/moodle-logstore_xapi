@@ -39,36 +39,44 @@ function course_module_completion_updated(array $config, \stdClass $event) {
     $repo = $config['repo'];
     $user = $repo->read_record_by_id('user', $event->relateduserid);
     $course = $repo->read_record_by_id('course', $event->courseid);
-    $coursemodule = $repo->read_record_by_id('course_modules', $event->contextinstanceid);
-    $moduletype = $repo->read_record_by_id('modules', $coursemodule->module);
-    $module = $repo->read_record_by_id($moduletype->name, $coursemodule->instance);
     $lang = utils\get_course_lang($course);
+    $completionstate = unserialize($event->other)['completionstate'];
+
+    if ($completionstate) {
+        $verb = [
+            'id' => 'http://adlnet.gov/expapi/verbs/completed',
+            'display' => [
+                $lang => 'Completed'
+            ],
+        ];
+    } else {
+        $verb = [
+            'id' => 'https://xapi.edlm/profiles/edlm-lms/concepts/verbs/uncompleted',
+            'display' => [
+                $lang => 'Uncompleted'
+            ],
+        ];
+    }
 
     return [[
         'actor' => utils\get_user($config, $user),
-        'verb' => [
-            'id' => 'http://adlnet.gov/expapi/verbs/completed',
-            'display' => [
-                $lang => 'completed'
-            ],
-        ],
+        'verb' => $verb,
         'object' => utils\get_activity\course_module(
             $config,
             $course,
-            $event->contextinstanceid,
-            'http://id.tincanapi.com/activitytype/lms/module'
+            $event->contextinstanceid
         ),
         'context' => [
             'language' => $lang,
             'extensions' => utils\extensions\base($config, $event, $course),
             'contextActivities' => [
-                'grouping' => [
-                    utils\get_activity\site($config),
-                    utils\get_activity\course($config, $course),
-                ],
+                'parent' => utils\context_activities\get_parent(
+                    $config,
+                    $event->contextinstanceid
+                ),
                 'category' => [
-                    utils\get_activity\source($config),
-                ]
+                    utils\get_activity\site($config),
+                ],
             ],
         ]
     ]];

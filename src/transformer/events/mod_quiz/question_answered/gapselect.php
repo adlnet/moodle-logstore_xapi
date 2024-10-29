@@ -27,6 +27,7 @@
 namespace src\transformer\events\mod_quiz\question_answered;
 
 use src\transformer\utils as utils;
+use src\transformer\utils\get_activity\definition\question as question;
 
 /**
  * Transformer for quiz question (gapselect) answered event.
@@ -57,7 +58,13 @@ function gapselect(array $config, \stdClass $event, \stdClass $questionattempt, 
         ],
         'object' => [
             'id' => utils\get_quiz_question_id($config, $coursemodule->id, $question->id),
-            'definition' => utils\get_multichoice_definition($config, $questionattempt, $question, $lang, 'sequencing'),
+            'definition' => question\get_multichoice_definition(
+                $config,
+                $question,
+                $lang,
+                'sequencing',
+                $questionattempt->rightanswer
+            ),
         ],
         'result' => [
             'response' => implode ('[,]', $selections),
@@ -71,14 +78,18 @@ function gapselect(array $config, \stdClass $event, \stdClass $questionattempt, 
             'language' => $lang,
             'extensions' => utils\extensions\base($config, $event, $course),
             'contextActivities' => [
-                'grouping' => [
-                    utils\get_activity\site($config),
-                    utils\get_activity\course($config, $course),
-                    utils\get_activity\course_quiz($config, $course, $event->contextinstanceid),
-                    utils\get_activity\quiz_attempt($config, $attempt->id, $coursemodule->id),
-                ],
+                'parent' => array_merge(
+                    [
+                        utils\get_activity\quiz_attempt($config, $attempt->id, $coursemodule->id),
+                    ],
+                    utils\context_activities\get_parent(
+                        $config,
+                        $event->contextinstanceid,
+                        true
+                    ),
+                ),
                 'category' => [
-                    utils\get_activity\source($config),
+                    utils\get_activity\site($config),
                 ]
             ],
         ]

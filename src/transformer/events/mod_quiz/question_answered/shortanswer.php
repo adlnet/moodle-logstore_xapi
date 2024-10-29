@@ -27,6 +27,7 @@
 namespace src\transformer\events\mod_quiz\question_answered;
 
 use src\transformer\utils as utils;
+use src\transformer\utils\get_activity\definition\question as question;
 
 /**
  * Transformer for quiz question (shortanswer) answered event.
@@ -56,13 +57,7 @@ function shortanswer(array $config, \stdClass $event, \stdClass $questionattempt
         ],
         'object' => [
             'id' => utils\get_quiz_question_id($config, $coursemodule->id, $question->id),
-            'definition' => [
-                'type' => 'http://adlnet.gov/expapi/activities/cmi.interaction',
-                'name' => [
-                    $lang => utils\get_string_html_removed($question->questiontext)
-                ],
-                'interactionType' => 'fill-in',
-            ]
+            'definition' => question\get_shortanswer_definition($config, $question, $lang)
         ],
         'result' => [
             'response' => $questionattempt->responsesummary,
@@ -72,14 +67,18 @@ function shortanswer(array $config, \stdClass $event, \stdClass $questionattempt
             'language' => $lang,
             'extensions' => utils\extensions\base($config, $event, $course),
             'contextActivities' => [
-                'grouping' => [
-                    utils\get_activity\site($config),
-                    utils\get_activity\course($config, $course),
-                    utils\get_activity\course_quiz($config, $course, $event->contextinstanceid),
-                    utils\get_activity\quiz_attempt($config, $attempt->id, $coursemodule->id),
-                ],
+                'parent' => array_merge(
+                    [
+                        utils\get_activity\quiz_attempt($config, $attempt->id, $coursemodule->id),
+                    ],
+                    utils\context_activities\get_parent(
+                        $config,
+                        $event->contextinstanceid,
+                        true
+                    ),
+                ),
                 'category' => [
-                    utils\get_activity\source($config),
+                    utils\get_activity\site($config),
                 ]
             ],
         ]
