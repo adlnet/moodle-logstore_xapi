@@ -36,6 +36,7 @@ function get_event_function_map() {
         '\core\event\course_category_created' => 'core\course_category_created',
         '\core\event\badge_awarded' => 'core\badge_awarded',
         '\core\event\badge_revoked' => 'core\badge_revoked',
+        '\core\event\badge_viewed' => 'core\badge_viewed',
         '\core\event\course_created' => 'core\course_created',
         '\core\event\course_updated' => 'core\course_updated',
         '\core\event\calendar_event_created' => 'core\calendar_event_created',
