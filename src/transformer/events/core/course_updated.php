@@ -44,12 +44,12 @@ function course_updated(array $config, \stdClass $event) {
         'verb' => [
             'id' => 'https://w3id.org/xapi/acrossx/verbs/edited',
             'display' => [
-                $lang => 'Edited'
+                'en' => 'Edited'
             ],
         ],
         'object' => utils\get_activity\course($config, $course),
         'context' => [
-            'extensions' => utils\extensions\base($config, $event, null),
+            ...utils\get_context_base($config, $event, $lang, $course),
             'contextActivities' => [
                 'category' => [
                     utils\get_activity\site($config),

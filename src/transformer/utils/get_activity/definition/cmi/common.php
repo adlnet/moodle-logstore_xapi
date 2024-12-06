@@ -15,38 +15,40 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Transformer utility for retrieving (SCORM) activities.
+ * Transformer utilities for creating CMI common xAPI Activity object definition fields.
  *
  * @package   logstore_xapi
- * @copyright Jerret Fowler <jerrett.fowler@gmail.com>
- *            Ryan Smith <https://www.linkedin.com/in/ryan-smith-uk/>
- *            David Pesce <david.pesce@exputo.com>
+ * @copyright Milt Reder <milt@yetanalytics.com>
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace src\transformer\utils\get_activity;
+namespace src\transformer\utils\get_activity\definition\cmi;
 
 use src\transformer\utils as utils;
 
 /**
- * Transformer utility for retrieving (SCORM) activities.
+ * Transformer util for creating common definition fields
  *
  * @param array $config The transformer config settings.
- * @param string $cmid The id of the context.
- * @param \stdClass $scorm The SCORM object.
- * @param string $lang The language of the SCORM activity.
- * @return array
+ * @param string $name The activity name.
+ * @param ?string $description The activity description.
+ * @param string $lang The language.
  */
-function course_scorm(array $config, string $cmid, \stdClass $scorm, string $lang) {
-    $scormname = property_exists($scorm, 'name') ? $scorm->name : 'Scorm';
-
+function common(
+    array $config,
+    string $name,
+        ?string $description,
+    string $lang
+) {
     return [
-        'id' => $config['app_url'].'/mod/scorm/view.php?id='.$cmid,
-        'definition' => [
-            'type' => 'http://id.tincanapi.com/activitytype/legacy-learning-standard',
-            'name' => [
-                $lang => $scormname,
-            ],
+        'type' => 'http://adlnet.gov/expapi/activities/cmi.interaction',
+        'name' => [
+            $lang => $name,
         ],
+        ...(
+            $description !== null
+                ? ['description' => [$lang => $description]]
+                : []
+        ),
     ];
 }

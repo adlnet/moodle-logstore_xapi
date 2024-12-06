@@ -54,7 +54,7 @@ function feedback_viewed(array $config, \stdClass $event) {
         'verb' => [
             'id' => 'http://id.tincanapi.com/verb/viewed',
             'display' => [
-                $lang => 'Viewed'
+                'en' => 'Viewed'
             ],
         ],
         'object' => [
@@ -71,9 +71,8 @@ function feedback_viewed(array $config, \stdClass $event) {
             ]
         ],
         'context' => [
-            'language' => $lang,
+            ...utils\get_context_base($config, $event, $lang, $course),
             'instructor' => utils\get_user($config, $grader),
-            'extensions' => utils\extensions\base($config, $event, $course),
             'contextActivities' => [
                 'parent' => utils\context_activities\get_parent(
                     $config,

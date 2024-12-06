@@ -46,13 +46,12 @@ function program_assigned(array $config, \stdClass $event) {
         'verb' => [
             'id' => 'http://activitystrea.ms/schema/1.0/assign',
             'display' => [
-                $lang => 'assigned'
+                'en' => 'Assigned'
             ],
         ],
         'object' => utils\totara\program($config, $program, $lang),
         'context' => [
-            'language' => $lang,
-            'extensions' => utils\extensions\base($config, $event),
+            ...utils\get_context_base($config, $event, $lang),
             'contextActivities' => [
                 'category' => [
                     utils\get_activity\site($config),

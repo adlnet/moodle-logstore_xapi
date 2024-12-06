@@ -24,10 +24,14 @@
         },
         "type": "http://adlnet.gov/expapi/activities/cmi.interaction",
         "interactionType": "true-false",
+        "correctResponsesPattern": [
+          "true"
+        ],
         "extensions": {
           "https://xapi.edlm/profiles/edlm-lms/concepts/activity-extensions/moodle-question-type": "truefalse"
         }
-      }
+      },
+      "objectType": "Activity"
     },
     "context": {
       "contextActivities": {
@@ -39,7 +43,8 @@
               "name": {
                 "en": "test_name"
               }
-            }
+            },
+            "objectType": "Activity"
           }
         ],
         "category": [
@@ -50,7 +55,8 @@
               "name": {
                 "en": "test_name"
               }
-            }
+            },
+            "objectType": "Activity"
           }
         ]
       },

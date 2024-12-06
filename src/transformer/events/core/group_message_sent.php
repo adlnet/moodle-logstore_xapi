@@ -52,12 +52,12 @@ function group_message_sent(array $config, \stdClass $event) {
         'verb' => [
             'id' => 'http://activitystrea.ms/send',
             'display' => [
-                $lang => 'Sent'
+                'en' => 'Sent'
             ],
         ],
         'object' => utils\get_activity\message($config, $lang, $message),
         'context' => [
-            'extensions' => utils\extensions\base($config, $event, null),
+            ...utils\get_context_base($config, $event, $lang, $course),
             'contextActivities' => [
                 'grouping' => [
                     utils\get_activity\course_group($config, $course, $group)

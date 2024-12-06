@@ -52,10 +52,11 @@ function multichoice(array $config, \stdClass $event, \stdClass $questionattempt
         'verb' => [
             'id' => 'http://adlnet.gov/expapi/verbs/answered',
             'display' => [
-                $lang => 'answered'
+                'en' => 'Answered'
             ],
         ],
         'object' => [
+            ...utils\get_activity\base(),
             'id' => utils\get_quiz_question_id($config, $coursemodule->id, $question->id),
             'definition' => question\get_multichoice_definition(
                 $config,
@@ -66,7 +67,10 @@ function multichoice(array $config, \stdClass $event, \stdClass $questionattempt
             ),
         ],
         'result' => [
-            'response' => implode ('[,]', $selections),
+            'response' => implode ('[,]', array_map(
+                function($selection) {
+                    return utils\slugify($selection);
+                }, $selections)),
             'success' => $questionattempt->rightanswer == $questionattempt->responsesummary,
             'completion' => $questionattempt->responsesummary !== '',
             'extensions' => [
@@ -75,8 +79,7 @@ function multichoice(array $config, \stdClass $event, \stdClass $questionattempt
             ],
         ],
         'context' => [
-            'language' => $lang,
-            'extensions' => utils\extensions\base($config, $event, $course),
+            ...utils\get_context_base($config, $event, $lang, $course),
             'contextActivities' => [
                 'parent' => array_merge(
                     [

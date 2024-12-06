@@ -54,12 +54,12 @@ function user_loggedin(array $config, \stdClass $event) {
         'verb' => [
             'id' => 'https://xapi.edlm/profiles/edlm-lms/concepts/verbs/login',
             'display' => [
-                $lang => 'Logged In',
+                'en' => 'Logged In',
             ],
         ],
         'object' => utils\get_activity\site($config),
         'context' => [
-            'language' => $lang,
+            ...utils\get_context_base($config, $event, $lang),
             'extensions' => $ctx_extensions,
         ]
     ]];

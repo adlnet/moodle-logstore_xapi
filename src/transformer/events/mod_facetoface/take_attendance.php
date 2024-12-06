@@ -58,7 +58,7 @@ function take_attendance(array $config, \stdClass $event) {
                     'verb' => [
                         'id' => 'http://adlnet.gov/expapi/verbs/attended',
                         'display' => [
-                            $lang => 'attended'
+                            'en' => 'Attended'
                         ],
                     ],
                     'object' => utils\get_activity\course_module(
@@ -71,9 +71,8 @@ function take_attendance(array $config, \stdClass $event) {
                         'completion' => $currentstatus->statuscode === 100,
                     ],
                     'context' => [
-                        'language' => $lang,
+                        ...utils\get_context_base($config, $event, $lang, $course),
                         'instructor' => utils\get_user($config, $user),
-                        'extensions' => utils\extensions\base($config, $event, $course),
                         'contextActivities' => [
                             'parent' => utils\context_activities\get_parent(
                                 $config,

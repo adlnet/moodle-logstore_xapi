@@ -46,12 +46,12 @@ function search_results_viewed(array $config, \stdClass $event) {
         'verb' => [
             'id' => 'https://w3id.org/xapi/acrossx/verbs/searched',
             'display' => [
-                $lang => 'Searched'
+                'en' => 'Searched'
             ],
         ],
         'object' => [
+            ...utils\get_activity\base(),
             'id' => $config['app_url'] . '/search/index.php',
-            'objectType' => 'Activity',
             'definition' => [
                 'type' => 'https://w3id.org/xapi/acrossx/activities/webpage',
                 'name' => [
@@ -63,7 +63,7 @@ function search_results_viewed(array $config, \stdClass $event) {
             'response' => $info['q'],
         ],
         'context' => [
-            'extensions' => utils\extensions\base($config, $event, null),
+            ...utils\get_context_base($config, $event, $lang),
             'contextActivities' => [
                 'category' => [
                     utils\get_activity\site($config),

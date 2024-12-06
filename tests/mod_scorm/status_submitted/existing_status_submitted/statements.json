@@ -10,17 +10,18 @@
     "verb": {
       "id": "http://adlnet.gov/expapi/verbs/completed",
       "display": {
-        "en": "completed"
+        "en": "Completed"
       }
     },
     "object": {
-      "id": "http://www.example.org/mod/scorm/view.php?id=1",
+      "id": "http://www.example.org/mod/scorm/view.php?id=1#sco",
       "definition": {
-        "type": "http://id.tincanapi.com/activitytype/legacy-learning-standard",
+        "type": "https://xapi.edlm/profiles/edlm-lms/concepts/activity-types/scorm-content-object",
         "name": {
-          "en": "test_name"
+          "en": "test_name Content"
         }
-      }
+      },
+      "objectType": "Activity"
     },
     "context": {
       "language": "en",
@@ -34,6 +35,16 @@
       },
       "contextActivities": {
         "parent": [
+          {
+            "id": "http://www.example.org/mod/scorm/view.php?id=1",
+            "definition": {
+              "type": "http://adlnet.gov/expapi/activities/module",
+              "name": {
+                "en": "test_name"
+              }
+            },
+            "objectType": "Activity"
+          },
           {
             "id": "http://www.example.org/course/section.php?id=1",
             "objectType": "Activity",
@@ -51,7 +62,8 @@
               "name": {
                 "en": "test_name"
               }
-            }
+            },
+            "objectType": "Activity"
           }
         ],
         "category": [
@@ -62,7 +74,8 @@
               "name": {
                 "en": "test_name"
               }
-            }
+            },
+            "objectType": "Activity"
           }
         ]
       }

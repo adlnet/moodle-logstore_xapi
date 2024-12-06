@@ -10,17 +10,18 @@
     "verb": {
       "id": "http://adlnet.gov/expapi/verbs/completed",
       "display": {
-        "en": "completed"
+        "en": "Completed"
       }
     },
     "object": {
-      "id": "http://www.example.org/mod/quiz/view.php?id=1",
+      "id": "http://www.example.org/mod/quiz/attempt.php?attempt=1&cmid=1",
       "definition": {
-        "type": "http://adlnet.gov/expapi/activities/assessment",
+        "type": "http://adlnet.gov/expapi/activities/attempt",
         "name": {
-          "en": "test_quiz_name"
+          "en": "test_quiz_name Attempt 1"
         }
-      }
+      },
+      "objectType": "Activity"
     },
     "result": {
       "score": {
@@ -46,6 +47,16 @@
       "contextActivities": {
         "parent": [
           {
+            "id": "http://www.example.org/mod/quiz/view.php?id=1",
+            "definition": {
+              "type": "http://adlnet.gov/expapi/activities/assessment",
+              "name": {
+                "en": "test_quiz_name"
+              }
+            },
+            "objectType": "Activity"
+          },
+          {
             "id": "http://www.example.org/course/section.php?id=1",
             "objectType": "Activity",
             "definition": {
@@ -62,18 +73,8 @@
               "name": {
                 "en": "test_name"
               }
-            }
-          }
-        ],
-        "other": [
-          {
-            "id": "http://www.example.org/mod/quiz/attempt.php?attempt=1&cmid=1",
-            "definition": {
-              "type": "http://adlnet.gov/expapi/activities/attempt",
-              "name": {
-                "en": "Attempt"
-              }
-            }
+            },
+            "objectType": "Activity"
           }
         ],
         "category": [
@@ -84,7 +85,8 @@
               "name": {
                 "en": "test_name"
               }
-            }
+            },
+            "objectType": "Activity"
           }
         ]
       }
@@ -101,7 +103,7 @@
     "verb": {
       "id": "http://adlnet.gov/expapi/verbs/answered",
       "display": {
-        "en": "answered"
+        "en": "Answered"
       }
     },
     "object": {
@@ -114,11 +116,55 @@
         "description": {
           "en": "test_question"
         },
-        "interactionType": "matching"
-      }
+        "interactionType": "matching",
+        "correctResponsesPattern": [
+          "red[.]green[,]blue[.]orange[,]black[.]white"
+        ],
+        "source": [
+          {
+            "id": "red",
+            "description": {
+              "en": "Red"
+            }
+          },
+          {
+            "id": "blue",
+            "description": {
+              "en": "Blue"
+            }
+          },
+          {
+            "id": "black",
+            "description": {
+              "en": "Black"
+            }
+          }
+        ],
+        "target": [
+          {
+            "id": "green",
+            "description": {
+              "en": "Green"
+            }
+          },
+          {
+            "id": "orange",
+            "description": {
+              "en": "Orange"
+            }
+          },
+          {
+            "id": "white",
+            "description": {
+              "en": "White"
+            }
+          }
+        ]
+      },
+      "objectType": "Activity"
     },
     "result": {
-      "response": "Red\n -> Green; Blue\n -> Orange; Black\n -> White",
+      "response": "red[.]green[,]blue[.]orange[,]black[.]white",
       "completion": true,
       "success": true,
       "extensions": {
@@ -146,9 +192,10 @@
             "definition": {
               "type": "http://adlnet.gov/expapi/activities/attempt",
               "name": {
-                "en": "Attempt"
+                "en": "test_quiz_name Attempt 1"
               }
-            }
+            },
+            "objectType": "Activity"
           },
           {
             "id": "http://www.example.org/mod/quiz/view.php?id=1",
@@ -157,7 +204,8 @@
               "name": {
                 "en": "test_quiz_name"
               }
-            }
+            },
+            "objectType": "Activity"
           },
           {
             "id": "http://www.example.org/course/section.php?id=1",
@@ -176,7 +224,8 @@
               "name": {
                 "en": "test_name"
               }
-            }
+            },
+            "objectType": "Activity"
           }
         ],
         "category": [
@@ -187,7 +236,8 @@
               "name": {
                 "en": "test_name"
               }
-            }
+            },
+            "objectType": "Activity"
           }
         ]
       }

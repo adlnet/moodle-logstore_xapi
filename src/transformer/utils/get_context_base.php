@@ -15,31 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Transformer utility for retrieving (course feedback) activities.
+ * Transformer utility for creating the default statement context.
  *
  * @package   logstore_xapi
- * @copyright Jerret Fowler <jerrett.fowler@gmail.com>
- *            Ryan Smith <https://www.linkedin.com/in/ryan-smith-uk/>
- *            David Pesce <david.pesce@exputo.com>
+ * @copyright Milt Reder <milt@yetanalytics.com>
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace src\transformer\utils\get_activity;
-
-use src\transformer\utils as utils;
+namespace src\transformer\utils;
 
 /**
- * Transformer utility for retrieving (course feedback) activities.
+ * Transformer utility for creating the default statement context.
  *
- * @param array $config The transformer config settings.
- * @param \stdClass $course The course object.
- * @param string $cmid The id of the context.
+ * @param array $config The transformer config.
+ * @param \stdClass $event The moodle event.
+ * @param string $lang The language.
+ * @param ?\stdClass $course The course.
  * @return array
  */
-function course_feedback(array $config, \stdClass $course, string $cmid) {
-    return utils\get_activity\course_module(
-        $config,
-        $course,
-        $cmid
-    );
+function get_context_base(
+    array $config,
+    \stdClass $event,
+    string $lang,
+    ?\stdClass $course = null
+) {
+    return [
+        'language' => $lang,
+        'extensions' => extensions\base($config, $event, $course),
+    ];
 }

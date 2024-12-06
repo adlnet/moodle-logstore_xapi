@@ -8,7 +8,27 @@
   "choice": [
     {
       "id": 1,
-      "name": "test_name"
+      "name": "To be or not to be?",
+      "intro": "<p>That is the question.</p>"
+    }
+  ],
+  "choice_options": [
+    {
+      "id": 1,
+      "choiceid": 1,
+      "text": "To be"
+    },
+    {
+      "id": 2,
+      "choiceid": 1,
+      "text": "Not to be"
+    }
+  ],
+  "choice_answers": [
+    {
+      "id": 1,
+      "choiceid": 1,
+      "optionid": 1
     }
   ]
 }

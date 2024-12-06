@@ -63,15 +63,20 @@ function randomsamatch(array $config, \stdClass $event, \stdClass $questionattem
         'verb' => [
             'id' => 'http://adlnet.gov/expapi/verbs/answered',
             'display' => [
-                $lang => 'answered'
+                'en' => 'Answered'
             ],
         ],
         'object' => [
+            ...utils\get_activity\base(),
             'id' => utils\get_quiz_question_id($config, $coursemodule->id, $question->id),
             'definition' => question\get_match_definition($config, $question, $lang)
         ],
         'result' => [
-            'response' => $questionattempt->responsesummary,
+            'response' => utils\result\get_matching_response(
+                $config,
+                $questionattempt,
+                $lang
+            ),
             'completion' => $questionattempt->responsesummary !== '',
             'success' => $questionattempt->rightanswer === $questionattempt->responsesummary,
             'extensions' => [
@@ -79,8 +84,7 @@ function randomsamatch(array $config, \stdClass $event, \stdClass $questionattem
             ],
         ],
         'context' => [
-            'language' => $lang,
-            'extensions' => utils\extensions\base($config, $event, $course),
+            ...utils\get_context_base($config, $event, $lang, $course),
             'contextActivities' => [
                 'parent' => array_merge(
                     [

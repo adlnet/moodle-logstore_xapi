@@ -45,12 +45,12 @@ function course_category_created(array $config, \stdClass $event) {
         'verb' => [
             'id' => 'http://activitystrea.ms/create',
             'display' => [
-                $lang => 'Created'
+                'en' => 'Created'
             ],
         ],
         'object' => utils\get_activity\course_category($config, $category),
         'context' => [
-            'extensions' => utils\extensions\base($config, $event, null),
+            ...utils\get_context_base($config, $event, $lang),
             'contextActivities' => [
                 'parent' => [
                     utils\get_activity\course_category($config, $parent_category),

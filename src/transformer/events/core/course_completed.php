@@ -47,13 +47,12 @@ function course_completed(array $config, \stdClass $event) {
         'verb' => [
             'id' => 'http://adlnet.gov/expapi/verbs/completed',
             'display' => [
-                $lang => 'Completed'
+                'en' => 'Completed'
             ],
         ],
         'object' => utils\get_activity\course($config, $course),
         'context' => [
-            'language' => $lang,
-            'extensions' => utils\extensions\base($config, $event, $course),
+            ...utils\get_context_base($config, $event, $lang, $course),
             'contextActivities' => [
                 'category' => [
                     utils\get_activity\site($config)

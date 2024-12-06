@@ -46,30 +46,35 @@ function numerical(array $config, \stdClass $event, \stdClass $questionattempt, 
     $quiz = $repo->read_record_by_id('quiz', $attempt->quiz);
     $coursemodule = $repo->read_record_by_id('course_modules', $event->contextinstanceid);
     $lang = utils\get_course_lang($course);
+    [
+        'min' => $min,
+        'max' => $max,
+    ] = utils\quiz_question\get_numerical_answer($config, $question->id);
+    $numanswer = $questionattempt->responsesummary;
 
     return [[
         'actor' => utils\get_user($config, $user),
         'verb' => [
             'id' => 'http://adlnet.gov/expapi/verbs/answered',
             'display' => [
-                $lang => 'answered'
+                'en' => 'Answered'
             ],
         ],
         'object' => [
+            ...utils\get_activity\base(),
             'id' => utils\get_quiz_question_id($config, $coursemodule->id, $question->id),
             'definition' => question\get_numerical_definition($config, $question, $lang)
         ],
         'result' => [
             'response' => $questionattempt->responsesummary,
             'completion' => $questionattempt->responsesummary !== '',
-            'success' => $questionattempt->rightanswer === $questionattempt->responsesummary,
+            'success' => ($min <= $numanswer && $numanswer <= $max),
             'extensions' => [
                 'http://learninglocker.net/xapi/cmi/numeric/response' => floatval($questionattempt->responsesummary),
             ],
         ],
         'context' => [
-            'language' => $lang,
-            'extensions' => utils\extensions\base($config, $event, $course),
+            ...utils\get_context_base($config, $event, $lang, $course),
             'contextActivities' => [
                 'parent' => array_merge(
                     [
